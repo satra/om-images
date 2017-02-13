@@ -1,7 +1,6 @@
 # To modify this file for your own system, use nvidia-smi
 # to check your driver version and adjust the variable
 # NV_DRIVER_VERSION below.
-#
 # Check sections <---- EDIT:
 
 BootStrap: docker
