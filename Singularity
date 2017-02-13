@@ -1,3 +1,5 @@
+# This container will run mriqc via singularity
+
 BootStrap: docker
 From: poldracklab/mriqc:0.9.0-0-python35
 
