@@ -4,7 +4,7 @@ class: middle center black
 
 Many thanks to the singularity team
 
-(CC-BY)
+[source](https://github.com/satra/om-images/tree/gh-pages) | CC-BY
 
 ---
 
