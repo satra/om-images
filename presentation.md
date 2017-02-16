@@ -72,6 +72,8 @@ Singularity was built for HPC, to support containerized environments, and to sup
 ---
 ### The Singularity workflow
 
+<img src="assets/singularity_workflow.png" width="100%" />
+
 ---
 name: agenda
 
