@@ -94,7 +94,33 @@ template: inverse
 ## The Singularity workflow
 
 <img src="assets/singularity_workflow.png" width="100%" />
+---
+### Let's start with an example
 
+I needed to send DICOMs to a DICOM receiver. I could
+- write something in python, or
+- compile dcmtk to give me an executable called `storescu`.
+--
+
+## OR
+
+--
+```bash
+# Add singularity
+$ module add openmind/singularity/2.2.1
+```
+--
+```bash
+# Download a container and go in
+$ singularity shell -B /some_om_path:/mnt docker://ggonzale/dcmtk
+```
+--
+```bash
+# Send dicoms from within this environment
+> storescu -aec AEC +sd +sp MR* -v somehost 8104 /mnt/path_to_dicoms
+```
+--
+I did not need to download and compile code or talk to a system administrator.
 ---
 name: agenda
 
