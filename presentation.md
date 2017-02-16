@@ -1,13 +1,17 @@
-class: middle center black
+name: inverse
+layout: true
+class: center, middle, inverse
+---
 # Singularity on Openmind
 ### satra@mit.edu
-
-Many thanks to the singularity team
+---
+Many thanks to the Singularity team
 
 [source](https://github.com/satra/om-images/tree/gh-pages) | CC-BY
 
+(You can update this presentation - just send a pull-request)
 ---
-
+layout: false
 ### Software Dependencies and Reproducible Research
 
 - Each project in a lab depends on complex software environments
@@ -17,19 +21,24 @@ Many thanks to the singularity team
      - Python/MATLAB/R versions
      - glibc
      - various other libraries, executables
+
+--
 - Each project has its own timeline
   - Maintaining common software repositories is "Oh so 20th century!"
   - Really hard on systems like Openmind
      - One of these days modules will clash
+
+--
 - Reproducible research requires consistent computing environments
-  - Passing environments even to lab-mates is not straightforward.
-
+  - Data **AND** code **AND** compute environments
+  - Passing environments has not been straightforward
 ---
-
-### Welcome Virtual Machines and Container Technologies
+### Virtual Machines and Container Technologies
 
 - Main idea: Isolate the computing environment
   - Corollary: Allow regenerating computing environments
+
+--
 - Types:
   - Virtual Machines
      - [Virtualbox](https://www.virtualbox.org/)
@@ -40,37 +49,49 @@ Many thanks to the singularity team
      - [runc](https://runc.io/)
      - [lxc/lxd](https://linuxcontainers.org/)
      - [Singularity](http://singularity.lbl.gov/)
+
+--
 - The details differ (and matter depending on application)
   - [Singularity vs everything else](http://singularity.lbl.gov/faq#general-singularity-info)
-
 ---
-class: middle center
+### The ecosystem: Vagrant, Docker and GitHub
+
+- Vagrant boxes for Virtual Machines
+    - Vagrant can be scripted with a Vagrantfile
+
+--
+- Docker + Dockerhub has created an ecosystem of Containers
+    - Dockerhub integrates with GitHub
+    - Create a specification (Dockerfile) on GitHub
+    - Create an integration between GitHub and Dockerhub
+    - Dockerhub will automatically build when you change the specification
+
+--
+- Can we do this on Openmind?
+    - We **can** run Vagrant on Openmind
+    - We **cannot** run docker on Openmind
+        - Primarily because of security (root escalation possible)
+---
+template: inverse
 
 ![containervsvm](http://www.bogotobogo.com/DevOps/Docker/images/Docker_vs_Virtual_Machine/Virtual_Machine_vs_Docker_Container.png)
-
 ---
+template: inverse
 
-### The container ecosystem: Docker and GitHub
-
-- Docker + Dockerhub has created an ecosystem of Containers
-- Dockerhub integrates with GitHub
-  - Create a specification (Dockerfile) on GitHub
-  - Create an integration between GitHub and Dockerhub
-  - Dockerhub will automatically build when you change the specification
-- However, we cannot run docker on Openmind
-  - Primarily because of security (root escalation possible)
-
+### We want containers
+### VMs are too heavy
+### Docker is not allowed
 ---
+layout: false
+### Enter [Singularity](http://singularity.lbl.gov/user-guide)
 
-### Enter singularity
+[Singularity](http://singularity.lbl.gov/user-guide) was built for HPC, to support containerized environments, and to support reproducible science.
 
-Singularity was built for HPC, to support containerized environments, and to support reproducible science
-
-- [Live webinar Introduction to Singularity by Greg Kurtzer](https://youtu.be/h5rDnCA3NJA?t=200)
-- [Documentation](http://singularity.lbl.gov/user-guide)
-
+<div style="position:relative;height:0;padding-bottom:56.25%"><iframe src="https://www.youtube.com/embed/h5rDnCA3NJA?ecver=2&start=252" frameborder="0" style="position:absolute;width:100%;height:100%;left:0" allowfullscreen></iframe></div>
+.right[A FlyElephant Webinar]
 ---
-### The Singularity workflow
+template: inverse
+## The Singularity workflow
 
 <img src="assets/singularity_workflow.png" width="100%" />
 
@@ -197,7 +218,11 @@ Sharing images is great for repeatability
 - What if you wanted to modify the image?
 - What if you wanted to know what is inside the image?
 
-Answer: Look at the specification
+--
+
+Look at the specification
+
+--
 
 There are two types of specifications you can use:
 1. `Dockerfile` to build an image using docker or [dockerhub](https://hub.docker.com/) and then convert to Singularity
@@ -238,7 +263,9 @@ MirrorURL: http://ftp.us.debian.org/debian/
 ### Singularity and GitHub
 
 - [Examples of bootstrap files](https://github.com/singularityware/singularity/tree/master/examples)
+
 - [Example Github project for Openmind](https://github.com/satra/om-images)
+
 - [Singularity Hub builds](https://singularity-hub.org/collections/60/)
 
 ---
@@ -252,20 +279,23 @@ A few things about Openmind
 - Vagrant stores boxes in `$VAGRANT_HOME`
 - Virtualbox stores VMs in `machinefolder`
   - defaults to `$HOME/VirtualBox VMs`
+
+--
+
 - Each user has a quota of 5G in `$HOME`
 
 --
-# IF YOU ARE CURRENTLY RUNNING A VM STOP
-
-Note: The following changes can impact the VM
+## IF YOU ARE CURRENTLY RUNNING A VM STOP
 
 --
+
+**Note:** The following changes can impact the VM
+
 ```bash
 export VAGRANT_HOME=$PWD/vagrant
 vboxmanage setproperty machinefolder $PWD/VBVMs
 ```
-
-
+.footnote[ .red[\*] Instead of `$PWD` you can create and use ``` /dev/shm/\`whoami\` ``` to speed things up!]
 ---
 ### Using Vagrant to create an image
 
@@ -329,13 +359,24 @@ $ vagrant destroy
 I've already built it using Singularity Hub.
 
 ```bash
+# Let's get a node with a GPU
 $ srun -N1 -c2 --gres=gpu:1 --pty bash
+
+# To pull from shub, we need a more bleeding version
 $ module rm openmind/singularity/2.2.1
 $ module add openmind/singularity/2.2.1-0ga71d50c
+
+# Get the image from Singularity hub
 $ singularity shell -B /om:/om shub://satra/om-images:tensorflow-gpu
-$ singularity exec $SINGULARITY_CACHEDIR/shub/4982e62f95c389e9b4af2c88d24b1f83aac938dd.img /usr/bin/python $HOME/convolutional.py
 ```
 
+But instead of retrieving the image every time, we can use the image already on `/om`
+
+<code>
+$ singularity exec $SINGULARITY_CACHEDIR/shub/4982e62f95c389e9b4af2c88d24b1f83aac938dd.img /usr/bin/python $HOME/convolutional.py
+</code>
+
+.footnote[ .red[\*] We can share these images]
 ---
 class: middle center
 
