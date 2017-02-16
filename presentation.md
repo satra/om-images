@@ -330,10 +330,10 @@ I've already built it using Singularity Hub.
 
 ```bash
 $ srun -N1 -c2 --gres=gpu:1 --pty bash
+$ module rm openmind/singularity/2.2.1
+$ module add openmind/singularity/2.2.1-0ga71d50c
 $ singularity shell -B /om:/om shub://satra/om-images:tensorflow-gpu
-or
-$ singularity shell -B /om:/om /om/user/satra/s/
-> /usr/bin/python $HOME/convolutional.py
+$ singularity exec $SINGULARITY_CACHEDIR/shub/4982e62f95c389e9b4af2c88d24b1f83aac938dd.img /usr/bin/python $HOME/convolutional.py
 ```
 
 ---
