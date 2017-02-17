@@ -230,7 +230,7 @@ Oops, we need our data. First we need to create a bind point inside the containe
 ```bash
 $ pushd cache/singularity-rundir.*/tensorflow/*1.0.0-gpu-py3/
 $ mkdir om
-$ pop
+$ popd
 $ singularity shell -B /om:/om cache/singularity-rundir.*/tensorflow/*1.0.0-gpu-py3/
 
 > ls /om/user/`whoami`
