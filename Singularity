@@ -9,8 +9,8 @@ From: poldracklab/mriqc:0.9.0-0-python35
 %post
     echo "
 
-source /etc/fsl/fsl.sh
-source /etc/afni/afni.sh
+. /etc/fsl/fsl.sh
+. /etc/afni/afni.sh
     
 " >> /environment
 
