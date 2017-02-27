@@ -6,8 +6,13 @@ From: poldracklab/mriqc:0.9.0-0-python35
 %runscript
     exec /usr/local/miniconda/bin/mriqc "$@"
 
+%setup
+    cp -r $SINGULARITY_ROOTFS/root/src $SINGULARITY_ROOTFS/opt
+    chmod -R a+r $SINGULARITY_ROOTFS/opt/src
+
 %post
-    chmod -R a+rx /root    
+    export PATH=/usr/local/miniconda/bin:$PATH
+    pip install /opt/src/mriqc
     echo "
     export PATH=/usr/local/miniconda/bin:$PATH
     export PYTHONPATH=/usr/local/miniconda/lib/python3.5/site-packages
