@@ -4,10 +4,10 @@
 # Check sections <---- EDIT:
 
 BootStrap: docker
-From: tensorflow/tensorflow:1.1.0-rc1-gpu-py3
+From: bethgelab/jupyter-torch:cuda8.0-cudnn5
 
 %runscript
-    # When executed, the container will run Python with the TensorFlow module
+    # When executed, the container will run Python
     exec /usr/bin/python "$@"
 
 %post
@@ -49,8 +49,4 @@ LD_LIBRARY_PATH=/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:$NV_DRI
 PATH=$NV_DRIVER_PATH:\$PATH
 export PATH LD_LIBRARY_PATH
     
-" >> /environment   
-
-%test
-    # Ensure that TensorFlow can be imported
-    /usr/bin/python -c "import tensorflow as tf"
+" >> /environment
