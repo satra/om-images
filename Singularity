@@ -4,8 +4,7 @@
 # Check sections <---- EDIT:
 
 BootStrap: docker
-From: tensorflow/tensorflow:1.0.0-gpu-py3
-# <---- EDIT: ABOVE TO DETERMINE WHICH VERSION OF TENSORFLOW YOU WANT. do not put any comments on that line.
+From: tensorflow/tensorflow:1.1.0-rc1-gpu-py3
 
 %runscript
     # When executed, the container will run Python with the TensorFlow module
@@ -52,8 +51,6 @@ export PATH LD_LIBRARY_PATH
     
 " >> /environment   
 
-    mkdir /om                      # <---- EDIT: SPECIFIC FILESYSTEM MOUNT
-    mkdir /cm                      # <---- EDIT: SPECIFIC FILESYSTEM MOUNT
 %test
     # Ensure that TensorFlow can be imported
     /usr/bin/python -c "import tensorflow as tf"
