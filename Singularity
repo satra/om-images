@@ -7,8 +7,8 @@ BootStrap: docker
 From: bethgelab/jupyter-torch:cuda8.0-cudnn5
 
 %runscript
-    # When executed, the container will run Python
-    exec /usr/bin/python "$@"
+    # When executed, the container will run Torch
+    exec /usr/local/torch/install/bin/th "$@"
 
 %post
     # Set up some required environment defaults
