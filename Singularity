@@ -19,6 +19,8 @@ From: tensorflow/tensorflow:1.1.0-rc1-gpu-py3
     sed -i '/xenial.*universe/s/^#//g' /etc/apt/sources.list
     locale-gen en_US.UTF-8
     apt-get -y update && apt-get -y install wget
+    pip install keras
+    pip install nibabel
     apt-get clean
     
     NV_DRIVER_VERSION=375.20      # <---- EDIT: CHANGE THIS FOR YOUR SYSTEM
@@ -54,3 +56,7 @@ export PATH LD_LIBRARY_PATH
 %test
     # Ensure that TensorFlow can be imported
     /usr/bin/python -c "import tensorflow as tf"
+    # Ensure that keras can be imported
+    /usr/bin/python -c "from keras.models import Sequential"
+    # Ensure that nibabel can be imported
+    /usr/bin/python -c "import nibabel as nb"
