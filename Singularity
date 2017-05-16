@@ -4,7 +4,7 @@
 # Check sections <---- EDIT:
 
 BootStrap: docker
-From: tensorflow/tensorflow:1.1.0-rc1-gpu-py3
+From: tensorflow/tensorflow:1.1.0-gpu-py3
 
 %runscript
     # When executed, the container will run Python with the TensorFlow module
